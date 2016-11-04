@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>CS253 BLOG</title>
+        <meta charset="utf-8">
+        <meta name="Item catalog" content="A list of items by category">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+        <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+
+        {% block script %}
+        {% endblock script%}
+
+    </head>
+
+    <body>
+    <div class="container">
+
+        {% block content %}
+        {% endblock content%}
+    </div>
+    </body>
+
+</html>
