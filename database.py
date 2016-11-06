@@ -12,9 +12,8 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'user'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    email = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False, primary_key=True)
+    name = Column(String(250))
     picture = Column(String(250))
 
 
@@ -43,7 +42,7 @@ class Item(Base):
     description = Column(String(250))
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('user.email'))
     user = relationship(User)
     image = Column(String(), nullable=True)
 
@@ -82,3 +81,5 @@ if __name__ == '__main__':
             item = Item(name="Item %s-%s" %(i, j), image="imgItem %s-%s%s" % (i, j, ".jpg"))
             session.add(item)
             session.commit
+
+    print "Database and records created..."

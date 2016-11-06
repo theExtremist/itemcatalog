@@ -8,12 +8,11 @@ import string
 import httplib2
 import requests
 
+import dbq
 
 validTokenUrl = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
 googleSecret = 'GoogleSecret.json'
 
-CLIENT_ID = json.loads(open(googleSecret, 'r').read())['web']['client_id']
-APPLICATION_NAME = "ItemCatalog"
 
 # Create anti-forgery state token
 def login():
@@ -61,7 +60,8 @@ def gconnect():
         return jsonResponse("Incorrect token user ID", 401)
 
     # Verify that the access token is valid for this app.
-    if result['issued_to'] != CLIENT_ID:
+    clientId = json.loads(open(googleSecret, 'r').read())['web']['client_id']
+    if result['issued_to'] != clientId:
         return jsonResponse("Incorrect Token client ID", 401)
 
 
@@ -71,28 +71,25 @@ def gconnect():
         return jsonResponse('User is already connected.', 200)
 
 
-    # Store the access token in the session for later use.
-    session['access_token'] = credentials.access_token
-    session['gplus_id'] = gplus_id
-
     # Get user info
     userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
     params = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=params)
-
     data = answer.json()
 
+
+    # Store session data
+    session['access_token'] = credentials.access_token
+    session['gplus_id'] = gplus_id
     session['username'] = data['name']
-    session['picture'] = data['picture']
+    session['pic'] = data['picture']
     session['email'] = data['email']
-    # ADD PROVIDER TO LOGIN SESSION
     session['provider'] = 'google'
 
+
     # see if user exists, if it doesn't make a new one
-    # user_id = getUserID(data["email"])
-    # if not user_id:
-    #     user_id = createUser(session)
-    # session['user_id'] = user_id
+    if not dbq.getUser(session["email"]):
+        dbq.createUser(session['email'], session['username'], session['pic'])
 
     return ' '
 
