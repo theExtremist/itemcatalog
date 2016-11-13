@@ -1,7 +1,14 @@
 
 {% extends "base.html" %}
 
-
 {% block content %}
     <H1> {{msg}} </H1>
+
+    <!-- {% if item %} -->
+        {% include 'itemdetails.html' %}
+        {% if loggedIn %}
+            <a href="{{url_for('editItem', itemId=item.id)}}">Edit</a>
+            <a href="{{url_for('deleteItem', itemId=item.id)}}">Delete</a>
+        {% endif %}
+    <!-- {% endif %} -->
 {% endblock content %}

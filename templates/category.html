@@ -4,4 +4,11 @@
 
 {% block content %}
     <H1> {{msg}} </H1>
+
+
+    <div class="item-pane">
+        {% for i in items %}
+            <a class="item-link" href="{{url_for('item', itemId=i.id)}}">{{i.name}}</a>
+        {% endfor %}
+    </div>
 {% endblock content %}

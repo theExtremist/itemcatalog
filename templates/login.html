@@ -45,14 +45,12 @@ function signInCallback(authResult) {
       processData: false,
       data: authResult['code'],
       contentType: 'application/octet-stream; charset=utf-8',
+
+      // Handle or verify the server response if necessary.
       success: function(result) {
-        // Handle or verify the server response if necessary.
         if (result) {
           $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
           window.location.href = "/index";
-          // setTimeout(function() {
-          //   window.location.href = "/index";
-          // }, 4000);
 
         } else if (authResult['error']) {
             console.log('There was an error: ' + authResult['error']);
@@ -72,7 +70,7 @@ function signInCallback(authResult) {
 <script>
   window.fbAsyncInit = function() {
   FB.init({
-    appId      : '147767099023832',
+    appId      : '1327163080661243',
     cookie     : true,  // enable cookies to allow the server to access
                         // the session
     xfbml      : true,  // parse social plugins on this page
@@ -105,10 +103,7 @@ function signInCallback(authResult) {
         // Handle or verify the server response if necessary.
         if (result) {
           $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
-         setTimeout(function() {
-          window.location.href = "/restaurant";
-         }, 4000);
-
+          window.location.href = "/index";
       } else {
         $('#result').html('Failed to make a server-side call. Check your configuration and console.');
          }

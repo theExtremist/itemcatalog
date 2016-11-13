@@ -1,0 +1,22 @@
+
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type ="text" maxlength="60" class="form-control" name="name" value="{{item.name}}">
+
+        <label for="category">Category:</label>
+        <select name="category" id="category-combo">
+            {% for c in categories %}
+                <option value="{{c.id}}">{{c.name}}</option>
+            {% endfor %}
+
+        </select>
+
+        <label for="description">Description:</label>
+        <textarea class="form-control" cols="100" rows="5" name="description">{{item.description}}</textarea>
+
+        <button type="submit" class="" id="save" type="submit">Save</button>
+        <button type="submit" onClick="history.go(-1);return true;">Cancel</button>
+
+    </div>
+
