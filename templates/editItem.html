@@ -3,11 +3,14 @@
 
 
 {% block content %}
-    <H1> {{msg}} </H1>
-
-    <form action="{{url_for('editItem', itemId = item.id)}}" method = "post">
+    <div class='item-page'>
+      {% include 'itemimage.html' %}
+      <form action="{{url_for('editItem', itemId=item.id)}}" method="post">
         {% include 'iteminput.html' %}
-    </form>
+      </form>
+    </div>
+
+    <script type="text/javascript">{% include "itemcatalog.js" %}</script>
 
 {% endblock content %}
 

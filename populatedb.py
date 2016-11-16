@@ -1,5 +1,9 @@
 import os
-
+LOREM = ("Sed ut perspiciatis unde omnis iste natus error sit voluptatem "
+         "accusantium doloremque laudantium, totam rem aperiam, eaque ipsa "
+         "quae abillo inventore veritatis et quasi architecto beatae vitae "
+         "dicta sunt explicabo.Nemo enim ipsam voluptatem quia voluptas sit "
+         "aspernatur aut odit aut fugit,sed quia consequuntur")
 
 def createRecords(categories, items):
 
@@ -14,9 +18,10 @@ def createRecords(categories, items):
         #create items
         for j in range(1,items+1):
             item = Item(
-                name="Item %s-%s" %(i, j),
+                name="Item %s-%s" % (i, j),
                 image="imgItem %s-%s%s" % (i, j, ".jpg"),
-                category=category)
+                category=category,
+                description="Description for item %s %s" % (j, LOREM))
 
             session.add(item)
             session.commit()
@@ -29,7 +34,7 @@ if __name__ == '__main__':
     except:
         print "No existing database found"
 
-    createRecords(10, 10)
+    createRecords(15, 10)
     print ("Database, tables and records created...")
 
 

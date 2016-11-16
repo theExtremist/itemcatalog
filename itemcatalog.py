@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask import session, flash, make_response
-from flask.ext.cache import Cache
+from werkzeug.contrib.cache import SimpleCache
 
 from db.database import User, Category, Item, get, getOne, getTable
 
@@ -8,12 +8,12 @@ import login
 
 
 app = Flask(__name__)
-cache = Cache(app,config={'CACHE_TYPE': 'simple'})
+cache = SimpleCache()
 
 
 
-@app.route('/login')
-def showLogin():
+@app.route('/login/')
+def showlogin():
     return login.login()
 
 
@@ -21,12 +21,17 @@ def showLogin():
 def gconnect():
     return login.gconnect(session)
 
-@app.route('/logout')
+
+@app.route('/fbconnect', methods=['POST'])
+def fbconnect():
+    return login.fbconnect(session)
+
+
+@app.route('/logout/')
 def logout():
     print login.logout(session)
-    print session
+    return redirect(url_for('index'))
 
-    return render('index.html', msg="index page")
 
 
 def render(template, **kw):
@@ -39,19 +44,23 @@ def render(template, **kw):
 @app.route('/')
 @app.route('/index/')
 def index():
-    return render('index.html', msg="index page")
+    items = get(Item, "categoryId", 1) #need to update
+    return render('index.html', title="Home page", items=items)
 
 
 @app.route('/category/<int:categoryId>')
 def category(categoryId):
     items = get(Item, "categoryId", categoryId)
-    return render('category.html', msg="Category page", items=items)
+    category = getOne(Category, "id", categoryId).name
+    return render('category.html', title=category, items=items)
 
 
 @app.route('/item/<int:itemId>')
 def item(itemId):
     item = get(Item, "id", itemId)[0]
-    return render('item.html', msg="Item page", item=item)
+    return render('item.html', title=item.category.name,
+                  titleUrl=url_for('category', categoryId=item.category.id),
+                  item=item)
 
 
 @app.route('/item/new/', methods=['GET', 'POST'])
@@ -61,7 +70,7 @@ def newItem(item=Item()):
             if Item.save(item, request.form):
                 return redirect(url_for('item', itemId=item.id))
 
-        return render('newitem.html', msg="New Item", item=Item())
+        return render('newitem.html', title="New item", item=Item())
     except:
         pass
 
@@ -74,7 +83,8 @@ def editItem(itemId):
             Item.save(item, request.form)
             return redirect(url_for('item', itemId=itemId))
 
-        return render('edititem.html', msg="Edit Item", item=item)
+        return render('edititem.html', title="Edit Item",
+                      categoryId=item.category.id, item=item)
     except:
         pass
 
@@ -87,7 +97,7 @@ def deleteItem(itemId):
             Item.delete(item)
             return redirect(url_for('category', categoryId=categoryId))
 
-        return render('deleteitem.html', msg="Delete Item", item=item)
+        return render('deleteitem.html', title="Delete Item", item=item)
     except:
         pass
 
@@ -96,7 +106,7 @@ def startServer():
 
     app.secret_key = 'super_secret_key'
     app.debug = True
-    cache.set('categories', getTable(Category))
+    cache.set('categories', getTable(Category), 3600)
     app.run(host='0.0.0.0', port=8000)
 
 if __name__ == '__main__':

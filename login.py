@@ -98,17 +98,19 @@ def gconnect(session):
     session['username'] = data['name']
     session['email'] = data['email']
     session['pic'] = data['picture']
-    print session
 
     return checkUser()
 
 
 
 def gDisconnect(session):
+    x = httplib2.Http()
     try:
-        credentials = session.get('credentials').revoke(httplib2.Http())
+        session.get('credentials').revoke(x)
         return True
     except:
+        print x.request.__dict__
+        print "Not able to log out"
         return False
 
 

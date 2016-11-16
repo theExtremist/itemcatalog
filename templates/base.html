@@ -5,41 +5,48 @@
         <title>CS253 BLOG</title>
         <meta charset="utf-8">
         <meta name="Item catalog" content="A list of items by category">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <meta name="mobile-web-app-capable" content="yes">
         <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
         <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
-        <script src="/static/itemcatalog.js"></script>
 
         {% block script %}
-        {% endblock script%}
-
+        {% endblock script %}
     </head>
 
     <body>
-    <div class="container">
-        <header> Item catalog </header>
+    <div class='container'>
+      <header class='col-100'>
+        <a class='main-heading' href="{{url_for('index')}}">Item catalog</a>
+      </header>
 
-        <nav id="drawer" class="nav">
-          <ul class="nav__list">
-            <li class="nav__item"><a href="#">News</a></li>
-            <li class="nav__item"><a href="#">Events</a></li>
-            <li class="nav__item"><a href="#">Culture</a></li>
-            <li class="nav__item"><a href="#">Blog</a></li>
-          </ul>
-        </nav>
+      <div class='title col-100'>
+        <a class='title-text' href="{{titleUrl}}"> {{title}} </a>
+        <a class='title-action' href="{{url_for('newItem')}}">New item</a>
+        {% if loggedIn %}
+          <a class='title-action' href="{{url_for('logout')}}">Log out</a>
+        {% else %}
+          <a class='title-action' href="{{url_for('showlogin')}}">Log in</a>
+        {% endif %}
+      </div>
 
+      <nav class='nav'>
+        {% for c in categories %}
+            <a class="nav-item" href="{{url_for('category', categoryId=c.id)}}">
+              {{c.name}}
+            </a>
+        {% endfor %}
+      </nav>
+
+      <section class='content-pane'>
         {% block content %}
-
-        {% endblock content%}
-        {% include 'flash.html' %}
-
-        <div class="category-pane">
-            {% for c in categories%}
-                <a class="category-link" href="{{url_for('category', categoryId=c.id)}}">{{c.name}}</a>
-                <br>
-            {% endfor %}
-        </div>
+        {% endblock content %}
+      </section>
 
     </div>
     </body>
+
+    {% block javascript %}
+    {% endblock javascript %}
 
 </html>

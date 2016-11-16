@@ -3,8 +3,5 @@
 
 
 {% block content %}
-    <H1> {{msg}} </H1>
-
-    <a href="{{url_for('newItem')}}">New item</a>
-
+    {% include 'itempane.html' %}
 {% endblock content %}

@@ -1,22 +1,30 @@
 
-
-    <div class="form-group">
-        <label for="name">Name:</label>
-        <input type ="text" maxlength="60" class="form-control" name="name" value="{{item.name}}">
+    <fieldset>
 
         <label for="category">Category:</label>
         <select name="category" id="category-combo">
             {% for c in categories %}
                 <option value="{{c.id}}">{{c.name}}</option>
             {% endfor %}
-
         </select>
 
+        <label for="name">Name:</label>
+        <input type ="text" maxlength="60" class="form-control" name="name" value="{{item.name}}">
+
+
+        <label>Picture</label>
+        <label for="picfile" class="button" id="picfile-label">
+          Choose a picture for this item
+        </label>
+        <input id="picfile" name="picfile" type ="file" maxlength="60" value="">
+
         <label for="description">Description:</label>
-        <textarea class="form-control" cols="100" rows="5" name="description">{{item.description}}</textarea>
+        <textarea id="description" rows="5" name="description">{{item.description}}</textarea>
 
-        <button type="submit" class="" id="save" type="submit">Save</button>
-        <button type="submit" onClick="history.go(-1);return true;">Cancel</button>
+    </fieldset>
+    <button type="submit" class="button" id="save" type="submit">Save</button>
+    <button type="submit" class="button" onClick="history.go(-1);return true;">Cancel</button>
+    </form>
 
-    </div>
+
 
