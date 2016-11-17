@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <div class='item-page'>
+
+   <picture class="item-page-photo">
+     <!-- <source media="(max-width: 400px)" srcset="images/horses-small.jpg"> -->
+     <!-- <source media="(min-width: 401px) and (max-width: 600px)" srcset="images/horses-medium.jpg">     -->
+     <img src="https://placekitten.com/350/350">
+    </picture>
+
+    <div class="item-page-description">
+      {% block details %}
+      {% endblock details %}
+
+
+      {% if loggedIn %}
+        <div class="item-page-actions">
+          {% block actions %}
+          {% endblock actions %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+{% endblock content %}
+
+

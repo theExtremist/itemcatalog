@@ -1,16 +1,9 @@
+{% extends "itembase.html" %}
 
-{% extends "base.html" %}
-
-
-{% block content %}
-    <div class='item-page'>
-      {% include 'itemimage.html' %}
+{% block actions %}
       <form action="{{url_for('editItem', itemId=item.id)}}" method="post">
         {% include 'iteminput.html' %}
       </form>
-    </div>
 
-    <script type="text/javascript">{% include "itemcatalog.js" %}</script>
-
-{% endblock content %}
-
+      <script type="text/javascript">{% include "itemcatalog.js" %}</script>
+{% endblock actions %}

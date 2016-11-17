@@ -1,19 +1,20 @@
+{% extends "itembase.html" %}
 
-{% extends "base.html" %}
+{% block details %}
+      <p class="item-page-caption">{{item.name}}</p>
+      {{item.description}}
+{% endblock details %}
 
 
-{% block content %}
-
-    {% include 'itemdetails.html' %}
-    <form action="{{url_for('deleteItem', itemId = item.id)}}" method = "post">
-      <p class="question">Are you sure you want to delete this item ?</p>
-      <button type="submit" class="button" id="save" type="submit">
-        Yes
-      </button>
+{% block actions %}
+  <form action="{{url_for('deleteItem', itemId = item.id)}}" method = "post">
+    <p class="question">Are you sure you want to delete this item ?</p>
+    <button type="submit" class="button" id="save" type="submit">
+      Yes
+    </button>
 
     <button type="submit" class="button"onClick="history.go(-1);return true;">
       Cancel
     </button>
-    </form>
-
-{% endblock content %}
+  </form>
+{% endblock actions %}

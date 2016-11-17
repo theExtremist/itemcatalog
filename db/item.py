@@ -17,7 +17,7 @@ class Item(Base):
     user = relationship(User)
     image = Column(String(), nullable=True)
 
-    def __init__(self, name='', description='', category=None, user=None,
+    def __init__(self, name='', description='', category=1, user=None,
                 image=''):
         self.name = name
         self.description = description

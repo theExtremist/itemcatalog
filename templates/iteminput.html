@@ -2,24 +2,23 @@
     <fieldset>
 
         <label for="category">Category:</label>
-        <select name="category" id="category-combo">
+        <select name="category" id="category-combo" class="input">
             {% for c in categories %}
                 <option value="{{c.id}}">{{c.name}}</option>
             {% endfor %}
         </select>
 
         <label for="name">Name:</label>
-        <input type ="text" maxlength="60" class="form-control" name="name" value="{{item.name}}">
-
+        <input class="input" type ="text" maxlength="60" name="name" value="{{item.name}}">
 
         <label>Picture</label>
-        <label for="picfile" class="button" id="picfile-label">
+        <label for="picfile" class="button input" id="picfile-label">
           Choose a picture for this item
         </label>
         <input id="picfile" name="picfile" type ="file" maxlength="60" value="">
 
         <label for="description">Description:</label>
-        <textarea id="description" rows="5" name="description">{{item.description}}</textarea>
+        <textarea id="description" rows="5" name="description" class="input">{{item.description}}</textarea>
 
     </fieldset>
     <button type="submit" class="button" id="save" type="submit">Save</button>

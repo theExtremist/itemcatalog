@@ -1,12 +1,11 @@
+{% extends "itembase.html" %}
 
-{% extends "base.html" %}
+{% block details %}
+      <p class="item-page-caption">{{item.name}}</p>
+      {{item.description}}
+{% endblock details %}
 
-{% block content %}
-
-  {% include 'itemdetails.html' %}
-  {% if loggedIn %}
-    <a href="{{url_for('editItem', itemId=item.id)}}" class="button">Edit</a>
-    <a href="{{url_for('deleteItem', itemId=item.id)}}" class="button">Delete</a>
-  {% endif %}
-
-{% endblock content %}
+{% block actions %}
+  <a href="{{url_for('editItem', itemId=item.id)}}" class="button">Edit</a>
+  <a href="{{url_for('deleteItem', itemId=item.id)}}" class="button">Delete</a>
+{% endblock actions %}

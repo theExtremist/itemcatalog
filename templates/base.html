@@ -15,10 +15,7 @@
     </head>
 
     <body>
-
-
     <div class='container'>
-
 
       <div id="heading" class='title col-100'>
         <header>
@@ -33,11 +30,12 @@
 
 
 
-      <div class="row">
       <div id="myNav" class="overlay">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <div class="overlay-content-small">
-          <div class="overlay-title">Options</div>
+          <div class="overlay-title">
+            Options
+          </div>
           <a href="{{url_for('newItem')}}">New item</a>
           {% if loggedIn %}
             <a href="{{url_for('logout')}}">Log out</a>
@@ -48,26 +46,29 @@
         </div>
 
         <div class="overlay-content">
-          <div class="overlay-title">Categories</div>
+          <div class="overlay-title">
+            Categories
+          </div>
+
           {% for c in categories %}
               <a class="nav-item" href="{{url_for('category', categoryId=c.id)}}">
                 {{c.name}}
               </a>
           {% endfor %}
-        </nav>
+
         </div>
       </div>
 
-        <section class='content-pane'>
-          {% block content %}
-          {% endblock content %}
-        </section>
+      <section class='content-pane'>
+        {% block content %}
+        {% endblock content %}
+      </section>
 
-
-      </div>
 
     </div>
-    </body>
+
+  </div>
+  </body>
 
     {% block javascript %}
     {% endblock javascript %}

@@ -1,11 +1,7 @@
-{% extends "base.html" %}
+{% extends "itembase.html" %}
 
-
-    {% block content %}
-    <div class='item-page'>
+{% block actions %}
     <form action="{{url_for('newItem')}}" method="post">
         {% include 'iteminput.html' %}
-
     </form>
-    </div>
-    {% endblock content %}
+{% endblock actions %}

@@ -69,13 +69,15 @@ body, html, main {
 
 
 .content-pane {
-    margin-top: 120px;
-    max-height: 80%;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: flex-start;
+
+    margin-top: 120px;
     padding-bottom: 5%;
+
+    width: 100%;
 }
 
 .item {
@@ -104,25 +106,40 @@ body, html, main {
 
 .item-page {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+    flex-wrap: wrap;
 	width: 100%;
 }
 
 .item-page-photo {
-	padding: 0.5em 0;
-	width: 40%;
+    display: flex;
+    justify-content: center;
+    max-height: 350px;
+	max-width: 47%;
 }
 
-.item-page-caption {
-	font-size: 1.75em;
-	color: #2d3c49;
-	text-decoration: none;
-}
 
 .item-page-description {
-	margin: 0.5em 0;
+	display: flex;
+    flex-direction: column;
+    margin: 0 5%;
 	font-size: 1em;
 	text-align: justify;
+    width: 45%;
+}
+
+
+.item-page-caption {
+    font-size: 1.75em;
+    color: #2d3c49;
+    text-decoration: none;
+    margin: 0 0 0.5em 0;
+}
+
+
+.item-page-actions {
+    display: flex;
+    width: 100%;
 }
 
 .question {
@@ -134,12 +151,13 @@ body, html, main {
     background-color: #2d3c49;
     border: none;
     color: white;
-    padding: 12px 32px;
     width: 8em;
+    padding: 12px 32px;
     margin: 1em 1em 1em 0;
-    text-align: center;
     text-decoration: none;
     font-size: 12px;
+    margin: 1em 1em 0 0;
+    text-align: center;
 }
 
 .button:hover {
@@ -150,9 +168,12 @@ fieldset {
 	display: flex;
 	flex-direction: row;
 	padding: 0;
-
 	border: none;
 	font-size: 1em;
+}
+
+form {
+    width: 100%;
 }
 
 label {
@@ -161,17 +182,20 @@ label {
 
 input[type=text], select {
     padding: 0.5em 0.5em;
-    min-width: 8em;
-    width: 25%;
 }
 
+.input {
+    font: inherit;
+    font-size: .8em;
+    min-width: 18em;
+}
 
 #description {
 	width: 100%;
 	white-space: normal;
 	text-align: justify;
+    resize: none;
 }
-
 
 #picfile {
 	width: 0.1px;
@@ -183,10 +207,9 @@ input[type=text], select {
 }
 
 #picfile-label {
-	width: 25%;
 	height: 2em;
 	padding: 0.5em;
-	margin: 0em;
+	margin: 0;
 }
 
 .hamburger {
