@@ -1,7 +1,0 @@
-{% extends "itembase.html" %}
-
-{% block actions %}
-    <form action="{{url_for('newItem')}}" method="post">
-        {% include 'iteminput.html' %}
-    </form>
-{% endblock actions %}

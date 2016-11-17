@@ -8,6 +8,7 @@ import login
 
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = "/img"
 cache = SimpleCache()
 
 
@@ -63,30 +64,34 @@ def item(itemId):
                   item=item)
 
 
-@app.route('/item/new/', methods=['GET', 'POST'])
-def newItem(item=Item()):
-    try:
-        if request.method == 'POST':
-            if Item.save(item, request.form):
-                return redirect(url_for('item', itemId=item.id))
+@app.route('/item/save/', methods=['POST'])
+@app.route('/item/<int:itemId>/save/', methods=['POST'])
+def saveItem(itemId=None):
+    # try:
+        if not itemId:
+             item=Item()
+        else:
+            item = getOne(Item, 'id', itemId)
 
-        return render('newitem.html', title="New item", item=Item())
-    except:
-        pass
+        if Item.save(item, request.form):
+            print request.files['picfile']
+            return redirect(url_for('item', itemId=item.id))
+
+    # except:
+    #     pass
 
 
-@app.route('/item/<int:itemId>/edit/', methods=['GET', 'POST'])
+@app.route('/item/new/', methods=['GET'])
+def newItem():
+    return render('saveitem.html', title="New item", item=Item())
+
+
+@app.route('/item/<int:itemId>/edit/', methods=['GET'])
 def editItem(itemId):
-    try:
-        item = getOne(Item, 'id', itemId)
-        if request.method == 'POST':
-            Item.save(item, request.form)
-            return redirect(url_for('item', itemId=itemId))
+    item = getOne(Item, 'id', itemId)
+    return render('saveitem.html', title="Edit Item",
+                    categoryId=item.category.id, item=item)
 
-        return render('edititem.html', title="Edit Item",
-                      categoryId=item.category.id, item=item)
-    except:
-        pass
 
 @app.route('/item/<int:itemId>/delete/', methods=['GET', 'POST'])
 def deleteItem(itemId):

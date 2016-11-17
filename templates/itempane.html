@@ -1,14 +1,10 @@
-
-
-<!-- <div class="item-pane"> -->
-    {% for i in items %}
-        <a class='item' href="{{url_for('item', itemId=i.id)}}">
-        <picture>
-          <!-- <source media="(max-width: 400px)" srcset="images/horses-small.jpg"> -->
-          <!-- <source media="(min-width: 401px) and (max-width: 600px)" srcset="images/horses-medium.jpg">     -->
-          <img class="item-photo" src="https://placekitten.com/200/200">
-          <div class='item-caption'>{{i.name}}</div>
-        </picture>
-        </a>
-    {% endfor %}
-<!-- </div> -->
+{% for i in items %}
+  <a class='item' href="{{url_for('item', itemId=i.id)}}">
+  <picture>
+    <!-- <source media="(max-width: 400px)" srcset="images/horses-small.jpg"> -->
+    <!-- <source media="(min-width: 401px) and (max-width: 600px)" srcset="images/horses-medium.jpg">     -->
+    <img class="item-photo" src="https://placekitten.com/200/200">
+    <div class='item-caption'>{{i.name}}</div>
+  </picture>
+  </a>
+{% endfor %}

@@ -1,6 +1,8 @@
+{% extends "itembase.html" %}
 
-    <fieldset>
-
+{% block actions %}
+    <form action="{{url_for('saveItem', itemId=item.id)}}" method="post" enctype="multipart/form-data">
+      <fieldset>
         <label for="category">Category:</label>
         <select name="category" id="category-combo" class="input">
             {% for c in categories %}
@@ -20,10 +22,10 @@
         <label for="description">Description:</label>
         <textarea id="description" rows="5" name="description" class="input">{{item.description}}</textarea>
 
-    </fieldset>
-    <button type="submit" class="button" id="save" type="submit">Save</button>
-    <button type="submit" class="button" onClick="history.go(-1);return true;">Cancel</button>
+      </fieldset>
+      <button type="submit" class="button" id="save" type="submit">Save</button>
+      <button type="submit" class="button" onClick="history.go(-1);return true;">Cancel</button>
     </form>
-
-
+    <script type="text/javascript">{% include "itemcatalog.js" %}</script>
+{% endblock actions %}
 
