@@ -1,7 +1,7 @@
 {% extends "itembase.html" %}
 
 {% block actions %}
-    <form action="{{url_for('saveItem', itemId=item.id)}}" method="post" enctype="multipart/form-data">
+    <form action="{{formAction}}" method="post" enctype="multipart/form-data">
       <fieldset>
         <label for="category">Category:</label>
         <select name="category" id="category-combo" class="input">
@@ -15,16 +15,16 @@
 
         <label>Picture</label>
         <label for="picfile" class="button input" id="picfile-label">
-          Choose a picture for this item
+          {{item.image}}
         </label>
-        <input id="picfile" name="picfile" type ="file" maxlength="60" value="">
+        <input id="picfile" name="picfile" type ="file" maxlength="60" value="{{item.image}}">
 
         <label for="description">Description:</label>
         <textarea id="description" rows="5" name="description" class="input">{{item.description}}</textarea>
 
       </fieldset>
       <button type="submit" class="button" id="save" type="submit">Save</button>
-      <button type="submit" class="button" onClick="history.go(-1);return true;">Cancel</button>
+      <a href="{{cancel}}", class="button">Cancel</a>
     </form>
     <script type="text/javascript">{% include "itemcatalog.js" %}</script>
 {% endblock actions %}

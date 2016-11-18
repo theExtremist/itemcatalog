@@ -5,10 +5,13 @@ from werkzeug.contrib.cache import SimpleCache
 from db.database import User, Category, Item, get, getOne, getTable
 
 import login
+import os
+import sys
 
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = "/img"
+app.config['UPLOAD_FOLDER'] = 'db/img'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 cache = SimpleCache()
 
 
@@ -37,7 +40,6 @@ def logout():
 
 def render(template, **kw):
     loggedIn = 'provider' in session
-    print loggedIn
     return render_template(template, categories=cache.get('categories'),
                             loggedIn=loggedIn, **kw)
 
@@ -64,33 +66,33 @@ def item(itemId):
                   item=item)
 
 
-@app.route('/item/save/', methods=['POST'])
-@app.route('/item/<int:itemId>/save/', methods=['POST'])
-def saveItem(itemId=None):
-    # try:
-        if not itemId:
-             item=Item()
-        else:
-            item = getOne(Item, 'id', itemId)
-
-        if Item.save(item, request.form):
-            print request.files['picfile']
-            return redirect(url_for('item', itemId=item.id))
-
-    # except:
-    #     pass
-
-
-@app.route('/item/new/', methods=['GET'])
+@app.route('/item/new/', methods=['GET', 'POST'])
 def newItem():
-    return render('saveitem.html', title="New item", item=Item())
+    item=Item()
+    if request.method == 'POST':
+        if Item.save(item, request.form, request.files['picfile']):
+            return render('item.html', title=item.category.name,
+                          titleUrl=url_for('category', categoryId=item.category.id),
+                          item=item)
+
+    return render('saveitem.html', title="New Item", item=item,
+                   formAction=url_for('newItem'), cancel=url_for('index'))
 
 
-@app.route('/item/<int:itemId>/edit/', methods=['GET'])
+@app.route('/item/<int:itemId>/edit/', methods=['GET', 'POST'])
 def editItem(itemId):
     item = getOne(Item, 'id', itemId)
+    if request.method == 'POST':
+        if Item.save(item, request.form, request.files['picfile']):
+            return render('item.html', title=item.category.name,
+                          titleUrl=url_for('category', categoryId=item.category.id),
+                          item=item)
+
     return render('saveitem.html', title="Edit Item",
-                    categoryId=item.category.id, item=item)
+                   categoryId=item.categoryId, item=item,
+                   formAction=url_for('editItem', itemId=item.id),
+                   cancel=url_for('item', itemId=itemId))
+
 
 
 @app.route('/item/<int:itemId>/delete/', methods=['GET', 'POST'])

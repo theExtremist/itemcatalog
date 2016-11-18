@@ -1,9 +1,10 @@
 from flask import flash
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, sessionmaker
+
 from database import Base, User, Category
 import database as db
-
+import images
 
 class Item(Base):
     __tablename__ = 'item'
@@ -41,21 +42,33 @@ class Item(Base):
 
 
     @staticmethod
-    def validParams(params):
+    def validParams(params, image):
         if params['name'] == '':
             flash('You entered an invalid value for the name field')
+            return False
+
+        if not images.validName(image.filename.lower()):
+            flash('You selected an invalid picture to upload')
             return False
         return True
 
 
 
     @staticmethod
-    def save(item, params):
-        if Item.validParams(params):
+    def save(item, params, image):
+        if Item.validParams(params, image):
             item.name = params['name']
             item.categoryId = params['category']
             item.description = params['description']
             db.session.add(item)
+            db.session.flush()
+            print item.id
+            # db.session.refresh(item)
+
+            url = images.save(image, item)
+            if url:
+                item.image = url
+
             db.session.commit()
             flash("%s has been saved" % item.name)
             return True
@@ -65,6 +78,7 @@ class Item(Base):
     @staticmethod
     def delete(item):
         try:
+            images.delete(item.image)
             db.session.delete(item)
             db.session.commit()
             flash('Item %s has been deleted' % item.name)
