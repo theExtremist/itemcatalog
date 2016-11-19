@@ -1,8 +1,7 @@
 {% extends "itembase.html" %}
 
 {% block details %}
-      <p class="item-page-caption">{{item.name}}</p>
-      {{item.description}}
+  {% include('itemdetails.html') %}
 {% endblock details %}
 
 {% block actions %}

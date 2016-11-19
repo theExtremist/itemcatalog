@@ -10,7 +10,7 @@ import sys
 
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'db/img'
+app.config['UPLOAD_FOLDER'] = 'static/img'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 cache = SimpleCache()
 
@@ -18,7 +18,7 @@ cache = SimpleCache()
 
 @app.route('/login/')
 def showlogin():
-    return login.login()
+    return login.login(session)
 
 
 @app.route('/gconnect', methods=['POST'])
@@ -33,9 +33,8 @@ def fbconnect():
 
 @app.route('/logout/')
 def logout():
-    print login.logout(session)
+    login.logout(session)
     return redirect(url_for('index'))
-
 
 
 def render(template, **kw):
@@ -47,7 +46,9 @@ def render(template, **kw):
 @app.route('/')
 @app.route('/index/')
 def index():
-    items = get(Item, "categoryId", 1) #need to update
+    print "INDEX:"
+    print session
+    items = get(Item, "categoryId", 1)
     return render('index.html', title="Home page", items=items)
 
 
@@ -66,14 +67,20 @@ def item(itemId):
                   item=item)
 
 
+def saveItem(item):
+    if Item.save(item, request.form, request.files['picfile'],
+                 session['userId']):
+        return render('item.html', title=item.category.name,
+                      titleUrl=url_for('category', categoryId=item.categoryId),
+                      item=item)
+    return None
+
+
 @app.route('/item/new/', methods=['GET', 'POST'])
 def newItem():
-    item=Item()
+    item = Item()
     if request.method == 'POST':
-        if Item.save(item, request.form, request.files['picfile']):
-            return render('item.html', title=item.category.name,
-                          titleUrl=url_for('category', categoryId=item.category.id),
-                          item=item)
+        return saveItem(item)
 
     return render('saveitem.html', title="New Item", item=item,
                    formAction=url_for('newItem'), cancel=url_for('index'))
@@ -83,10 +90,7 @@ def newItem():
 def editItem(itemId):
     item = getOne(Item, 'id', itemId)
     if request.method == 'POST':
-        if Item.save(item, request.form, request.files['picfile']):
-            return render('item.html', title=item.category.name,
-                          titleUrl=url_for('category', categoryId=item.category.id),
-                          item=item)
+        return saveItem(item)
 
     return render('saveitem.html', title="Edit Item",
                    categoryId=item.categoryId, item=item,
@@ -108,6 +112,9 @@ def deleteItem(itemId):
     except:
         pass
 
+@app.route('/test/', methods=['GET', 'POST'])
+def test():
+    return '<img src="/static/img/IMG_2099.JPG">'
 
 def startServer():
 

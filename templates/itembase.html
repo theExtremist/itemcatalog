@@ -7,7 +7,9 @@
    <picture class="item-page-photo">
      <!-- <source media="(max-width: 400px)" srcset="images/horses-small.jpg"> -->
      <!-- <source media="(min-width: 401px) and (max-width: 600px)" srcset="images/horses-medium.jpg">     -->
-     <img src="https://placekitten.com/350/350">
+     <!-- <img src="https://placekitten.com/350/350"> -->
+     <img src="{{url_for('static', filename='img/%s' % item.image)}}">
+
     </picture>
 
     <div class="item-page-description">

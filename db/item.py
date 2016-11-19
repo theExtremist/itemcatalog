@@ -1,4 +1,4 @@
-from flask import flash
+from flask import flash, current_app
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, sessionmaker
 
@@ -14,12 +14,12 @@ class Item(Base):
     description = Column(String(250))
     categoryId = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
-    userId = Column(Integer, ForeignKey('user.email'))
+    userId = Column(String(60), ForeignKey('user.email'))
     user = relationship(User)
     image = Column(String(), nullable=True)
 
     def __init__(self, name='', description='', category=None, user=None,
-                image=''):
+                 image=''):
         self.name = name
         self.description = description
         self.category = category
@@ -55,15 +55,14 @@ class Item(Base):
 
 
     @staticmethod
-    def save(item, params, image):
+    def save(item, params, image, userId):
         if Item.validParams(params, image):
             item.name = params['name']
             item.categoryId = params['category']
             item.description = params['description']
+            item.userId = userId
             db.session.add(item)
             db.session.flush()
-            print item.id
-            # db.session.refresh(item)
 
             url = images.save(image, item)
             if url:

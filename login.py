@@ -1,4 +1,4 @@
-from flask import render_template, make_response, request, session
+from flask import render_template, make_response, request
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
@@ -7,6 +7,7 @@ import random
 import string
 import httplib2
 import requests
+import datetime
 
 from db.database import getOne
 from db.user import User
@@ -23,11 +24,10 @@ fbSecret = 'FbSecret.json'
 
 
 # Create anti-forgery state token
-def login():
+def login(session):
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
     session['state'] = state
-    print state
     return render_template('login.html', STATE=state)
 
 
@@ -43,6 +43,7 @@ def submitRequest(url):
 
 
 def gconnect(session):
+
     # Validate state token and if valid trade the authorisation code for
     # an access token
     if request.args.get('state') != session['state']:
@@ -87,7 +88,7 @@ def gconnect(session):
     params = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=params)
     data = answer.json()
-
+    user = loadUser(data, data['picture'])
 
     # Store session data
     session['provider'] = 'google'
@@ -95,21 +96,17 @@ def gconnect(session):
     session['provider_id'] = gplus_id
     session['disconnect'] = 'gDisconnect(session)'
 
-    session['username'] = data['name']
-    session['email'] = data['email']
-    session['pic'] = data['picture']
-
-    return checkUser()
+    session['userId'] = user.email
+    session['username'] = user.name
+    session['pic'] = user.image
 
 
 
 def gDisconnect(session):
-    x = httplib2.Http()
     try:
-        session.get('credentials').revoke(x)
+        session.get('credentials').revoke(httplib2.Http())
         return True
     except:
-        print x.request.__dict__
         print "Not able to log out"
         return False
 
@@ -126,24 +123,26 @@ def fbconnect(session):
     token = submitRequest(fbValidUrl % (appId, appSecret, data)).split("&")[0]
 
     data = json.loads(submitRequest(fbInfoUrl % token))
+    user = loadUser(data,
+                    json.loads(submitRequest(fbPicUrl % token))["data"]["url"])
 
     session['provider'] = 'facebook'
     session['access_token'] = token.split("=")[1]
     session['provider_id'] = data["id"]
     session['disconnect'] = 'fDisconnect(session)'
 
-    session['username'] = data["name"]
-    session['email'] = data["email"]
-    session['pic'] = json.loads(submitRequest(fbPicUrl % token))["data"]["url"]
+    session['userId'] = user.email
+    session['username'] = user.name
+    session['pic'] = user.image
 
-    return checkUser()
+    return ' '
 
 
 def fDisconnect(session):
     try:
         facebook_id = session['provider_id']
         access_token = session['access_token']
-        url = fbDisconnectUrl % (facebook_id,access_token)
+        url = fbDisconnectUrl % (facebook_id, access_token)
         h = httplib2.Http()
         result = h.request(url, 'DELETE')[1]
         return True
@@ -155,23 +154,28 @@ def fDisconnect(session):
 # Disconnect based on provider
 def logout(session):
 
+    session.pop('state', None)
+    session.pop('provider', None)
+    session.pop('access_token', None)
+    session.pop('provider_id', None)
+    session.pop('credentials', None)
+    session.pop('userId', None)
+    session.pop('username', None)
+    session.pop('pic', None)
+    session.pop('user', None)
+
     if eval(session['disconnect']):
-        session.pop('provider', None)
-        session.pop('access_token', None)
-        session.pop('provider_id', None)
-        session.pop('credentials', None)
-        session.pop('username', None)
-        session.pop('email', None)
-        session.pop('pic', None)
         return True
     else:
         return False
 
 
-def checkUser():
-    if not getOne(User, 'email', session['email']):
-        user = User(email=session['email'], name=session['username'],
-            image=session['pic'])
-        User.save(user)
+def loadUser(data, image):
+    user = getOne(User, 'email', data['email'])
+    if not user:
+        if data['name'] == '':
+            data['name'] = 'User %s' % datetime.datetime.now()
 
-    return ' '
+        user = User(email=data['email'], name=data['name'], image=image)
+        User.save(user)
+    return user

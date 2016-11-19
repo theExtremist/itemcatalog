@@ -6,9 +6,9 @@ import database as db
 class User(Base):
     __tablename__ = 'user'
 
-    email = Column(String(250), primary_key=True)
+    email = Column(String(60), primary_key=True)
     name = Column(String(250), nullable=False)
-    image = Column(String(250), nullable=False)
+    image = Column(String(250), nullable=True)
 
 
 

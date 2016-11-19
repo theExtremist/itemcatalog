@@ -1,5 +1,5 @@
 import os
-from flask import current_app, flash
+from flask import current_app, flash, url_for
 from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = set(['txt' 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -25,13 +25,14 @@ def delete(path):
 def save(image, item):
     try:
         if image.filename != '':
+            filename = '%s_%s' % (item.id, secure_filename(image.filename))
+
             path = os.path.join(current_app.root_path,
-                                current_app.config['UPLOAD_FOLDER'],'%s_%s'
-                                % (item.id, image.filename))
+                                current_app.config['UPLOAD_FOLDER'], filename)
+
             delete(path)
-            delete(item.image)
             image.save(path)
-            return path
+            return filename
         else:
             return None
     except:
