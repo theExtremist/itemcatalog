@@ -7,6 +7,9 @@ import database as db
 import images
 
 class Item(Base):
+
+    """Represents an item object"""
+
     __tablename__ = 'item'
 
     id = Column(Integer, primary_key=True)
@@ -33,11 +36,11 @@ class Item(Base):
         """Return object data in easily serializeable format"""
         return {
             'id': self.id,
-            'category': self.category,
+            'category': self.categoryId,
             'name': self.name,
             'description': self.description,
-            'created by': self.user,
-            'image': self.image
+            'created by': self.userId,
+            'image': self.image,
         }
 
 

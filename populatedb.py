@@ -42,6 +42,8 @@ def createRecords(categories, items):
 
 
 if __name__ == '__main__':
+
+    #Removes any existing database
     try:
         os.remove("db/itemcatalog.db")
         print "Existing database has been deleted"
