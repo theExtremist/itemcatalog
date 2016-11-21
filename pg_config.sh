@@ -10,3 +10,4 @@ pip install requests
 pip install httplib2
 pip install sqlalchemy
 pip install Flask-Cache
+pip install flask-seasurf

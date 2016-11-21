@@ -2,6 +2,7 @@
 
 {% block actions %}
     <form action="{{formAction}}" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
       <fieldset>
         <label for="category">Category:</label>
         <select name="category" id="category-combo" class="input">

@@ -17,7 +17,7 @@
       {% endblock details %}
 
 
-      {% if loggedIn %}
+      {% if session['userId'] == item.userId %}
         <div class="item-page-actions">
           {% block actions %}
           {% endblock actions %}

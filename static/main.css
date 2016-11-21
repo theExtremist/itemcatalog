@@ -254,6 +254,8 @@ input[type=text], select {
 }
 
 .overlay {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 0;
     position: fixed;
@@ -264,12 +266,13 @@ input[type=text], select {
     background-color: rgba(0,0,0, 0.9);
     overflow-x: hidden;
     transition: 0.5s;
+    color: #7b9cb9;
 }
 
 
 .overlay-content, .overlay-content-small {
     position: relative;
-    top: 15%;
+    top: 1em;
     width: 80%;
     padding: 1em;
     margin-bottom: 2em;
@@ -277,7 +280,11 @@ input[type=text], select {
 
 
 .overlay-content-small {
-    height: 5em;
+    height: 25vh;
+}
+
+.profile-pic {
+    max-height: 30%;
 }
 
 .overlay-title {
@@ -305,6 +312,7 @@ input[type=text], select {
     top: 20px;
     right: 45px;
     font-size: 3em;
+    z-index: 1;
 }
 
 hr {

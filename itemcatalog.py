@@ -1,20 +1,33 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask import session, flash, make_response
 from werkzeug.contrib.cache import SimpleCache
+from flask.ext.seasurf import SeaSurf
 
-from db.database import User, Category, Item, get, getOne, getTable
-
-import login
 import os
 import sys
 
+from db.database import User, Category, Item, get, getOne, getTable
+import login
 
 app = Flask(__name__)
+csrf = SeaSurf(app)
 app.config['UPLOAD_FOLDER'] = 'static/img'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 cache = SimpleCache()
 
 
+def authed(userId=None):
+    if 'userId' not in session:
+        flash('Please log in to continue')
+        return False
+
+    if userId:
+        if session['userId'] == userId:
+            return True
+        else:
+            flash('You are not authorised to perform this operation')
+        return False
+    return True
 
 @app.route('/login/')
 def showlogin():
@@ -68,19 +81,21 @@ def item(itemId):
 
 
 def saveItem(item):
-    if Item.save(item, request.form, request.files['picfile'],
-                 session['userId']):
-        return render('item.html', title=item.category.name,
-                      titleUrl=url_for('category', categoryId=item.categoryId),
-                      item=item)
-    return None
+
+    Item.save(item, request.form, request.files['picfile'], session['userId'])
+
+    return render('item.html', title=item.category.name,
+                    titleUrl=url_for('category', categoryId=item.categoryId),
+                    item=item)
+
 
 
 @app.route('/item/new/', methods=['GET', 'POST'])
 def newItem():
     item = Item()
     if request.method == 'POST':
-        return saveItem(item)
+        if authed():
+            return saveItem(item)
 
     return render('saveitem.html', title="New Item", item=item,
                    formAction=url_for('newItem'), cancel=url_for('index'))
@@ -88,9 +103,12 @@ def newItem():
 
 @app.route('/item/<int:itemId>/edit/', methods=['GET', 'POST'])
 def editItem(itemId):
+
     item = getOne(Item, 'id', itemId)
+
     if request.method == 'POST':
-        return saveItem(item)
+        if authed(item.userId):
+            return saveItem(item)
 
     return render('saveitem.html', title="Edit Item",
                    categoryId=item.categoryId, item=item,
@@ -105,12 +123,34 @@ def deleteItem(itemId):
         item = getOne(Item, 'id', itemId)
         categoryId = item.category.id
         if request.method == 'POST':
-            Item.delete(item)
-            return redirect(url_for('category', categoryId=categoryId))
+            if authed(item.userId):
+                Item.delete(item)
+                return redirect(url_for('category', categoryId=categoryId))
 
         return render('deleteitem.html', title="Delete Item", item=item)
     except:
         pass
+
+
+@app.route('/categories/JSON')
+def categoriesJSON():
+    categories = getTable(Category)
+    return jsonify(restaurants=[c.serialize for c in categories])
+
+
+@app.route('/category/<int:categoryId>/items/JSON')
+def categoryItemsJSON(categoryId):
+    items = get(Item, 'categoryId', categoryId)
+    return jsonify(items=[i.serialize for i in items])
+
+
+@app.route('/item/<int:itemId>/JSON')
+def itemJSON(itemId):
+    item = getOne(Item, 'itemId', itemId)
+    return jsonify(item.serialize)
+
+
+
 
 @app.route('/test/', methods=['GET', 'POST'])
 def test():
@@ -125,3 +165,4 @@ def startServer():
 
 if __name__ == '__main__':
     startServer()
+

@@ -100,6 +100,7 @@ def gconnect(session):
     session['username'] = user.name
     session['pic'] = user.image
 
+    return ' '
 
 
 def gDisconnect(session):

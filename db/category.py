@@ -8,7 +8,6 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(60), nullable=False)
-    image = Column(String(), nullable=True)
 
 
     @property
@@ -17,5 +16,4 @@ class Category(Base):
         return {
             'id': self.id,
             'name': self.name,
-            'image': self.image
         }
