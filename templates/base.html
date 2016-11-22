@@ -39,7 +39,7 @@
             <img class="profile-pic" src="{{session['pic']}}">
             <p>Hello {{session['username']}}</p>
           {% else %}
-            <img class="profile-pic" src="{{url_for('static', filename='img/incognito.jpg')}}">
+            <img class="profile-pic" src="{{url_for('static', filename='assets/incognito.jpg')}}">
             <p>Not logged in</p>
           {% endif %}
 

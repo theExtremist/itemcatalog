@@ -1,9 +1,16 @@
+/*
+ *
+ * Default/application wide settings
+ *
+ */
+
 *{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     -box-sizing: border-box;
 }
+
 
 body, html, main {
   	margin: 5px;
@@ -17,6 +24,20 @@ body, html, main {
 }
 
 
+picture {
+    display: flex;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+
 .container {
 	display: -ms-flexbox;
 	display: flex;
@@ -27,7 +48,45 @@ body, html, main {
     overflow: hidden;
 }
 
+.button {
+    background-color: #2d3c49;
+    border: none;
+    color: white;
+    width: 8em;
+    padding: 12px 32px;
+    margin: 1em 1em 1em 0;
+    text-decoration: none;
+    font-size: 12px;
+    margin: 1em 1em 0 0;
+    text-align: center;
+}
 
+.button:hover {
+    background-color: #3e8e41;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    border: none;
+    font-size: 1em;
+}
+
+form {
+    width: 100%;
+}
+
+label {
+    margin: 0.5em .5em 0 0;
+}
+
+
+/*
+ *
+ * Heading and titles
+ *
+ */
 .main-heading {
     text-decoration: none;
     color: #2d3c49;
@@ -62,7 +121,7 @@ body, html, main {
 
 /*
  *
- * Top Level Navigation
+ * Category page
  *
  */
 
@@ -88,7 +147,6 @@ body, html, main {
 
     justify-content: center;
     align-items: center;
-
 }
 
 .item-photo {
@@ -107,21 +165,12 @@ body, html, main {
     padding: 5px;
 }
 
-picture {
-    display: flex;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
 
-}
-
-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
-
-
+/*
+ *
+ * Item page
+ *
+ */
 
 .item-caption {
 	color: #616161;
@@ -182,39 +231,12 @@ img {
 	color: red;
 }
 
-.button {
-    background-color: #2d3c49;
-    border: none;
-    color: white;
-    width: 8em;
-    padding: 12px 32px;
-    margin: 1em 1em 1em 0;
-    text-decoration: none;
-    font-size: 12px;
-    margin: 1em 1em 0 0;
-    text-align: center;
-}
 
-.button:hover {
-    background-color: #3e8e41;
-}
-
-fieldset {
-	display: flex;
-	flex-direction: row;
-	padding: 0;
-	border: none;
-	font-size: 1em;
-}
-
-form {
-    width: 100%;
-}
-
-label {
-	margin: 0.5em .5em 0 0;
-}
-
+/*
+ *
+ * Item input fields
+ *
+ */
 input[type=text], select {
     padding: 0.5em 0.5em;
 }
@@ -247,6 +269,13 @@ input[type=text], select {
 	margin: 0;
 }
 
+
+/*
+ *
+ * Drawer menu
+ * Copied from W3C and adapted for this application
+ *
+ */
 .hamburger {
     font-size:1em;
     cursor:pointer;
@@ -272,7 +301,7 @@ input[type=text], select {
 
 .overlay-content, .overlay-content-small {
     position: relative;
-    top: 1em;
+    margin-top: 1em;
     width: 80%;
     padding: 1em;
     margin-bottom: 2em;
@@ -318,11 +347,56 @@ input[type=text], select {
 hr {
     border-color: #818181;
 }
-/*@media screen and (max-height: 450px) {
-  .overlay a {font-size: 20px}
-  .overlay .closebtn {
-    font-size: 40px;
-    top: 15px;
-    right: 35px;
-  }*/
+
+
+
+/*
+ *
+ * Login
+ *
+ */
+
+.signIn-frame {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    border: solid;
+
+    padding: 5vh 3vh;
+    width: 250px;
+    height: 300px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+
+#gSignIn {
+    margin: 1em 0;
+    padding: 0;
+    width: 170px;
+    height: 40px;
+    background:url('/static/assets/googleNormal.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border: none;
+}
+
+
+#gSignIn:hover {
+    background:url('/static/assets/googleFocus.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#gSignIn:focus {
+    outline: 0;
+}
+
+fb:login-button {
+    height: 100px;
 }

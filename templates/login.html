@@ -1,41 +1,21 @@
-
-{% extends "base.html" %}
-
-{% block script %}
-
-  <script
-    src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-  </script>
-
-  <script
-    src="//apis.google.com/js/platform.js?onload=start">
-  </script>
-
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-{% endblock script %}
+<html>
+    <head>
+        <title>CS253 BLOG</title>
+        <meta charset="utf-8">
+        <meta name="Item catalog" content="A list of items by category">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+        <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="//apis.google.com/js/platform.js?onload=start"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    </head>
 
 
-{% block content %}
 
 <!-- GOOGLE PLUS SIGN IN-->
-
-
-<div id="signInButton">
-<span class="g-signin"
-  data-scope="openid email"
-  data-clientid="1036539936009-cbdff823ip8nqtok41t63hpllhli8ie7.apps.googleusercontent.com"
-  data-redirecturi="postmessage"
-  data-accesstype="offline"
-  data-cookiepolicy="single_host_origin"
-  data-callback="signInCallback"
-  data-approvalprompt="force">
-</span>
-</div>
-
-<div id="result"></div>
-
 <script>
 function signInCallback(authResult) {
   if (authResult['code']) {
@@ -51,20 +31,17 @@ function signInCallback(authResult) {
       processData: false,
       data: authResult['code'],
       contentType: 'application/octet-stream; charset=utf-8',
-
       // Handle or verify the server response if necessary.
       success: function(result) {
         if (result) {
           $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
           window.location.href = "/index";
-
         } else if (authResult['error']) {
             console.log('There was an error: ' + authResult['error']);
   } else {
         $('#result').html('Failed to make a server-side call. Check your configuration and console.');
     }
 }
-
   }); } }
 </script>
 
@@ -118,25 +95,38 @@ function signInCallback(authResult) {
         $('#result').html('Failed to make a server-side call. Check your configuration and console.');
          }
       }
-
   });
     });
   }
 </script>
 
-
-<button>
-
-
-          <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
-<a href='javascript:sendTokenToServer()'>Login with Facebook</a>
-
-</fb:login-button>
+<body>
 
 
-        </button>
-<!--END FACEBOOK SIGN IN -->
+  <div class="signIn-frame">
+    <div class = "main-heading"> Item Catalog </div>
+
+    <button id="gSignIn">.</button>
+
+    <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();" size="large">
+      <a id="fSignIn" href='javascript:sendTokenToServer()'>Login with Facebook</a>
+    </fb:login-button>
+
+    <div id="result"></div>
+  </div>
 
 
 
-{% endblock content %}
+  <script>
+    gapi.signin.render("gSignIn", {
+      'callback': 'signInCallback',
+      'clientid': "1036539936009-cbdff823ip8nqtok41t63hpllhli8ie7.apps.googleusercontent.com",
+      'cookiepolicy': 'single_host_origin',
+      'scope': 'profile email',
+      'redirecturi': 'postmessage',
+      'accesstype': "offline",
+      'approvalprompt': "force"
+    });
+  </script>
+
+</body>
