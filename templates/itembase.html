@@ -1,23 +1,27 @@
+<!-- The template renders the basic elements for an item object -->
+<!-- An 'actions' block is provided to include links to edit, delete, etc -->
 {% extends "base.html" %}
 
 {% block content %}
 
   <div class='item-page'>
 
-   <picture class="item-page-photo">
-     <!-- <source media="(max-width: 400px)" srcset="images/horses-small.jpg"> -->
-     <!-- <source media="(min-width: 401px) and (max-width: 600px)" srcset="images/horses-medium.jpg">     -->
-     <!-- <img src="https://placekitten.com/350/350"> -->
-     <img src="{{url_for('static', filename='img/%s' % item.image)}}">
-
+    <picture class="item-page-photo">
+      <!-- TODO: add media queries for responsive images
+      <source media="(max-width: 500px)" srcset="{{url_for('static', filename='img/%s' % item.image)}}">
+      <source media="(min-width: 501px)" srcset="{{url_for('static', filename='img/%s' % item.image)}}"> -->
+      <img src="{{url_for('static', filename='img/%s' % item.image)}}">
     </picture>
 
     <div class="item-page-description">
       {% block details %}
+      <!-- Place holder for any other detail that a child template needs to
+           include-->
       {% endblock details %}
 
-
-      {% if session['userId'] == item.userId %}
+      <!-- Action blocks are only displayed if the user has permission to
+           edit the current item -->
+      {% if loggedIn %}
         <div class="item-page-actions">
           {% block actions %}
           {% endblock actions %}

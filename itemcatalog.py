@@ -6,7 +6,7 @@ from flask.ext.seasurf import SeaSurf
 import os
 import sys
 
-from db.database import User, Category, Item, get, getOne, getTable
+from db.database import User, Category, Item, get, getOne, getTable, getSort
 import login
 
 app = Flask(__name__)
@@ -100,7 +100,7 @@ def index():
 
     """Returns a page with the 10 most recent items."""
 
-    items = get(Item, "categoryId", 1)
+    items = getSort(Item, "created", 10)
     return render('index.html', title="Home page", items=items)
 
 

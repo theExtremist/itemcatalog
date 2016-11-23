@@ -1,8 +1,10 @@
-<div class = ''>
+<!-- Displays flash messages -->
+
+<div class="col-100">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
 
-        <ul>
+        <ul class="flash">
         {% for message in messages %}
             <li> <strong> {{ message }} </strong> </li>
         {% endfor %}

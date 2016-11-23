@@ -1,3 +1,4 @@
+<!-- Populate the main display area with photos of the items for a category -->
 {% for i in items %}
 
     <a class='item' href="{{url_for('item', itemId=i.id)}}">
@@ -10,6 +11,5 @@
       <div class='item-caption'>{{i.name}}</div>
       </div>
     </a>
-
 
 {% endfor %}

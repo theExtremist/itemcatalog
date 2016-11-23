@@ -60,6 +60,23 @@ def get(table, field, val):
     return session.query(table).filter(getattr(table, field).like(val)).all()
 
 
+def getSort(table, sortfield, limit):
+
+    """Returns a list of records from a table sorted but the sortfield.
+
+    Args:
+        table     : the table we want to query
+        sortfield : the field on which to sort the table
+        limit     : the number of records to return
+
+    Returns:
+        A list of records from the table sorted by the sortfield argument.
+    """
+
+    return (session.query(table).filter(getattr(table, sortfield))
+            .order_by(getattr(table, sortfield).desc()).limit(limit))
+
+
 # creates a database schema and binds a session to it.
 engine = create_engine('sqlite:///db/itemcatalog.db',
                        connect_args={'check_same_thread':False},

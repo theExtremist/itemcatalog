@@ -10,9 +10,7 @@
         <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
         <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-        {% block script %}
-        {% endblock script %}
+        <script src="{{url_for('static', filename='js/itemcatalog.js')}}"></script>
     </head>
 
     <body>
@@ -23,6 +21,8 @@
           <a class='main-heading' href="{{url_for('index')}}">Item catalog</a>
         </header>
 
+
+        <!-- Add hamburger menu -->
         <div class=col-100>
           <span class="hamburger" onclick="openNav()">&#9776;</span>
           <a class='title-text' href="{{titleUrl}}"> {{title}} </a>
@@ -30,9 +30,11 @@
       </div>
 
 
-
+      <!-- Add drawer menu with appropriate option if the user is logged in -->
       <div id="myNav" class="overlay">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+          &times;
+          </a>
 
         <div class="overlay-content-small">
           {% if loggedIn %}
@@ -57,11 +59,13 @@
           <hr>
         </div>
 
+        <!-- Populate the drawer with links to categories  -->
         <div class="overlay-content">
           <div class="overlay-title">
             Categories
           </div>
 
+          <a class="nav-item" href="{{url_for('index')}}">Home</a>
           {% for c in categories %}
               <a class="nav-item" href="{{url_for('category', categoryId=c.id)}}">
                 {{c.name}}
@@ -71,10 +75,11 @@
         </div>
       </div>
 
+      <!-- This is the place holder for the child template's content -->
       <section class='content-pane'>
+        {% include 'flash.html' %}
         {% block content %}
         {% endblock content %}
-        {% include 'flash.html' %}
       </section>
 
 
@@ -82,17 +87,4 @@
 
   </div>
   </body>
-
-    {% block javascript %}
-    {% endblock javascript %}
-
-<script>
-function openNav() {
-    document.getElementById("myNav").style.width = "25%";
-}
-
-function closeNav() {
-    document.getElementById("myNav").style.width = "0%";
-}
-</script>
 </html>

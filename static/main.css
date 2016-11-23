@@ -82,6 +82,20 @@ label {
 }
 
 
+.flash {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0.5em 1em;
+    color: #e23e3e;
+}
+
+.question {
+    margin: 1em 0 0;
+    color: #e23e3e;
+}
+
+
 /*
  *
  * Heading and titles
@@ -177,8 +191,15 @@ label {
 	font-size: .75em;
 }
 
-.posted-by {
-    font-size: .75em;
+.item-other-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.item-other-info {
+    font-size: .6em;
     font-style: italic;
 }
 
@@ -198,8 +219,9 @@ label {
 .item-page-photo {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     max-height: 350px;
-	max-width: 45%;
+	width: 45%;
 }
 
 
@@ -224,11 +246,6 @@ label {
 .item-page-actions {
     display: flex;
     width: 100%;
-}
-
-.question {
-	margin: 1em 0 0;
-	color: red;
 }
 
 

@@ -1,6 +1,7 @@
-import os
 from flask import current_app, flash, url_for
 from werkzeug.utils import secure_filename
+
+import os
 
 ALLOWED_EXTENSIONS = set(['txt' 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -38,3 +39,4 @@ def save(image, item):
     except:
         flash('The picture was invalid')
         return None
+

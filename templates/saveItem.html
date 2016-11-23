@@ -1,3 +1,6 @@
+<!-- Extends item base and renders inputs for the users to edit or create
+a new item and save it -->
+
 {% extends "itembase.html" %}
 
 {% block actions %}
@@ -27,6 +30,10 @@
       <button type="submit" class="button" id="save" type="submit">Save</button>
       <a href="{{cancel}}", class="button">Cancel</a>
     </form>
-    <script type="text/javascript">{% include "itemcatalog.js" %}</script>
+
+    <script type="text/javascript">
+      {% include "combo.js" %}
+    </script>
 {% endblock actions %}
+
 

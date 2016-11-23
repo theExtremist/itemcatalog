@@ -1,3 +1,5 @@
+<!-- Displays the an item and provides options to delete the item or cancel  -->
+
 {% extends "itembase.html" %}
 
 {% block details %}
@@ -6,15 +8,20 @@
 
 
 {% block actions %}
-  <form action="{{url_for('deleteItem', itemId = item.id)}}" method = "post">
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-    <p class="question">Are you sure you want to delete this item ?</p>
-    <button type="submit" class="button" id="save" type="submit">
-      Yes
-    </button>
+  {% if session['userId'] == item.userId %}
+    <!-- Obtain confirmation from the user before deleting -->
+    <form action="{{url_for('deleteItem', itemId = item.id)}}" method = "post">
 
-    <button type="submit" class="button"onClick="history.go(-1);return true;">
-      Cancel
-    </button>
-  </form>
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+      <p class="question">Are you sure you want to delete this item ?</p>
+
+      <button type="submit" class="button" id="save" type="submit">
+        Yes
+      </button>
+
+      <button type="submit" class="button"onClick="history.go(-1);return true;">
+        Cancel
+      </button>
+    </form>
+  {% endif %}
 {% endblock actions %}

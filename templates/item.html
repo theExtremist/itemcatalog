@@ -1,3 +1,5 @@
+<!-- Displays and item page and provides options to edit or delete the item -->
+
 {% extends "itembase.html" %}
 
 {% block details %}
@@ -5,6 +7,8 @@
 {% endblock details %}
 
 {% block actions %}
-  <a href="{{url_for('editItem', itemId=item.id)}}" class="button">Edit</a>
-  <a href="{{url_for('deleteItem', itemId=item.id)}}" class="button">Delete</a>
+  {% if session['userId'] == item.userId %}
+    <a href="{{url_for('editItem', itemId=item.id)}}" class="button">Edit</a>
+    <a href="{{url_for('deleteItem', itemId=item.id)}}" class="button">Delete</a>
+  {% endif %}
 {% endblock actions %}

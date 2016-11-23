@@ -1,6 +1,9 @@
 from flask import flash, current_app
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.sql import func
+
+import datetime
 
 from database import Base, User, Category
 import database as db
@@ -20,9 +23,11 @@ class Item(Base):
     userId = Column(String(60), ForeignKey('user.email'))
     user = relationship(User)
     image = Column(String(), nullable=True)
+    created = Column(DateTime(timezone=True), server_default=func.now())
+    updated = Column(DateTime(timezone=True), onupdate=func.now(), default=datetime.datetime.utcnow)
 
     def __init__(self, name='', description='', category=None, user=None,
-                 image=''):
+                 image='default.jpg'):
         self.name = name
         self.description = description
         self.category = category
