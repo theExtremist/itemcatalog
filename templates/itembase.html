@@ -8,9 +8,10 @@
 
     <picture class="item-page-photo">
       <!-- TODO: add media queries for responsive images
-      <source media="(max-width: 500px)" srcset="{{url_for('static', filename='img/%s' % item.image)}}">
-      <source media="(min-width: 501px)" srcset="{{url_for('static', filename='img/%s' % item.image)}}"> -->
-      <img src="{{url_for('static', filename='img/%s' % item.image)}}">
+      <source media="(max-width: 500px)" srcset=""}">
+      <source media="(min-width: 501px)" srcset=""> -->
+      <img src="{{url_for('static', filename='img/%s' % item.image)}}"
+           alt="Picture of %s" % item.name>
     </picture>
 
     <div class="item-page-description">

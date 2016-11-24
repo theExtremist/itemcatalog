@@ -9,7 +9,8 @@ for (i = 0; i< combo.options.length; i++){
 }
     return;
 }
-setSelectedIndex(document.getElementById("category-combo"),"{{item.category.id}}");
+setSelectedIndex(document.getElementById("category-combo"),
+                 "{{item.category.id}}");
 
 document.getElementById("picfile").onchange = function () {
     document.getElementById("picfile-label").innerHTML =

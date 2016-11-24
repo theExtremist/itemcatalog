@@ -1,8 +1,18 @@
 <!-- Displays basic item information -->
-  <p class="item-page-caption">{{item.name}}</p>
-  {{item.description}}
+<p class="item-page-caption">{{item.name}}</p>
+
+{{item.description}}
+
 <div class="item-other-info-container">
-  <p class="item-other-info"> Posted by: {{item.user.name}} </p>
-  <p class="item-other-info"> Created: {{item.created.strftime('%b %d, %Y')}} </p>
-  <p class="item-other-info"> Last updated: {{item.updated.strftime('%b %d, %Y')}} </p>
+  <p class="item-other-info">
+    Posted by: {{item.user.name}}
+  </p>
+
+  <p class="item-other-info">
+    Created: {{item.created.strftime('%b %d, %Y')}}
+  </p>
+
+  <p class="item-other-info">
+    Last updated: {{item.updated.strftime('%b %d, %Y')}}
+  </p>
 </div>

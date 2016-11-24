@@ -5,12 +5,20 @@
         <title>CS253 BLOG</title>
         <meta charset="utf-8">
         <meta name="Item catalog" content="A list of items by category">
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <meta name="viewport"
+              content="width=device-width, minimum-scale=1.0, initial-scale=1.0,
+              user-scalable=yes">
         <meta name="mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
-        <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="{{url_for('static', filename='js/itemcatalog.js')}}"></script>
+        <link rel="stylesheet" type="text/css"
+              href="{{url_for('static', filename='main.css')}}">
+        <link href="https://fonts.googleapis.com/css?family=Sacramento"
+              rel="stylesheet">
+        <script
+          src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+        </script>
+        <script
+          src="{{url_for('static', filename='js/itemcatalog.js')}}">
+        </script>
     </head>
 
     <body>
@@ -41,7 +49,8 @@
             <img class="profile-pic" src="{{session['pic']}}">
             <p>Hello {{session['username']}}</p>
           {% else %}
-            <img class="profile-pic" src="{{url_for('static', filename='assets/incognito.jpg')}}">
+            <img class="profile-pic"
+            src="{{url_for('static', filename='assets/incognito.jpg')}}">
             <p>Not logged in</p>
           {% endif %}
 
@@ -67,7 +76,8 @@
 
           <a class="nav-item" href="{{url_for('index')}}">Home</a>
           {% for c in categories %}
-              <a class="nav-item" href="{{url_for('category', categoryId=c.id)}}">
+              <a class="nav-item"
+               href="{{url_for('category', categoryId=c.id)}}">
                 {{c.name}}
               </a>
           {% endfor %}

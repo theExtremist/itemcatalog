@@ -1,0 +1,34 @@
+{
+  "name": "itemcatalog",
+  "version": "1.0.0",
+  "description": "This project was created for Item catalog project of Udacity's full stack developer nano degree program.",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "^1.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.7",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-mkdir": "^1.0.0",
+    "grunt-postcss": "^0.8.0",
+    "grunt-responsive-images": "^0.1.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thierry Michel",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theExtremist/itemcatalog.git"
+  },
+  "keywords": [
+    "itemcatalog"
+  ],
+  "bugs": {
+    "url": "https://github.com/theExtremist/itemcatalog/issues"
+  },
+  "homepage": "https://github.com/theExtremist/itemcatalog#readme"
+}

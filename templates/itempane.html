@@ -4,9 +4,12 @@
     <a class='item' href="{{url_for('item', itemId=i.id)}}">
       <div class="item-photo">
         <picture>
-          <!-- <source media="(max-width: 400px)" srcset="images/horses-small.jpg"> -->
-          <!-- <source media="(min-width: 401px) and (max-width: 600px)" srcset="images/horses-medium.jpg">     -->
-          <img src="{{url_for('static', filename='img/%s' % i.image)}}">
+          <!-- TODO: add media queries for responsive images
+          <source media="(max-width: 400px)" srcset="images/horses-small.jpg">
+          <source media="(min-width: 401px) and (max-width: 600px)" srcset="">
+           -->
+          <img src="{{url_for('static', filename='img/%s' % i.image)}}"
+               alt="Picture of %" % i.name>
         </picture>
       <div class='item-caption'>{{i.name}}</div>
       </div>

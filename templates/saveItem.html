@@ -2,8 +2,7 @@
 a new item and save it -->
 
 {% extends "itembase.html" %}
-
-{% block actions %}
+  {% block actions %}
     <form action="{{formAction}}" method="post" enctype="multipart/form-data">
       <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
       <fieldset>
@@ -15,25 +14,30 @@ a new item and save it -->
         </select>
 
         <label for="name">Name:</label>
-        <input class="input" type ="text" maxlength="60" name="name" value="{{item.name}}">
+        <input class="input" type ="text" maxlength="60" name="name"
+                value="{{item.name}}">
 
         <label>Picture</label>
         <label for="picfile" class="button input" id="picfile-label">
           {{item.image}}
         </label>
-        <input id="picfile" name="picfile" type ="file" maxlength="60" value="{{item.image}}">
+        <input id="picfile" name="picfile" type ="file" maxlength="60"
+               value="{{item.image}}">
 
         <label for="description">Description:</label>
-        <textarea id="description" rows="5" name="description" class="input">{{item.description}}</textarea>
+        <textarea id="description" rows="5" name="description"
+                  class="input">{{item.description}}
+        </textarea>
 
       </fieldset>
-      <button type="submit" class="button" id="save" type="submit">Save</button>
+      <button type="submit" class="button" id="save" type="submit">
+        Save
+      </button>
       <a href="{{cancel}}", class="button">Cancel</a>
     </form>
 
     <script type="text/javascript">
       {% include "combo.js" %}
     </script>
-{% endblock actions %}
-
+  {% endblock actions %}
 
