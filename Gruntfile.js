@@ -4,15 +4,13 @@ module.exports = function(grunt) {
     /* Post-css prefixes */
     postcss: {
         options: {
-            map: true,
-            processors: [
-                require('autoprefixer')({
-                    browsers: ['last 2 versions']
-                })
-            ]
-        },
+        map: true,
+        processors: [
+          require('autoprefixer')({browsers: ['last 2 version']})
+    ]
+  },
         dist: {
-            src: 'css/*.css'
+            src: 'static/*.css'
         }
     }
   });
