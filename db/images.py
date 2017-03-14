@@ -3,12 +3,12 @@ from werkzeug.utils import secure_filename
 
 import os
 
-ALLOWED_EXTENSIONS = set(['txt' 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['txt' 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'JPG'])
 
 def validName(filename):
     try:
         if filename != '':
-            return filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+            return filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
         return True
     except:
         return False
@@ -36,7 +36,9 @@ def save(image, item):
             return filename
         else:
             return None
-    except:
-        flash('The picture was invalid')
+    except Exception as e:
+        # flash('The picture was invalid')
+        flash(e)
+        flash(os.path.join(current_app.root_path, current_app.config['UPLOAD_FOLDER'], filename))
         return None
 

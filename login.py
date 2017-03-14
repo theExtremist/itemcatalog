@@ -19,8 +19,8 @@ fbInfoUrl = 'https://graph.facebook.com/v2.4/me?%s&fields=name,id,email'
 fbPicUrl = 'https://graph.facebook.com/v2.4/me/picture?%s&redirect=0&height=200&width=200'
 fbValidTokenUrl = 'https://graph.facebook.com/debug_token?input_token=%s&access_token=%s'
 fbDisconnectUrl = 'https://graph.facebook.com/%s/permissions?access_token=%s'
-googleSecret = 'GoogleSecret.json'
-fbSecret = 'FbSecret.json'
+googleSecret = '/var/www/itemcatalog/GoogleSecret.json'
+fbSecret = '/var/www/itemcatalog/FbSecret.json'
 
 
 # Create anti-forgery state token
@@ -93,9 +93,11 @@ def gconnect(session):
         oauth_flow = flow_from_clientsecrets(googleSecret, scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(request.data)
-        session['credentials'] = credentials
+        # session['credentials'] = credentials.access_token
+        session['credentials'] = credentials.to_json()
     except FlowExchangeError:
         return jsonResponse('Upgrade auth code failed.', 401)
+
 
     # Check that the access token is valid.
     # If there was an error in the access token info, abort.
@@ -115,7 +117,7 @@ def gconnect(session):
         return jsonResponse("Incorrect Token client ID", 401)
 
     #Verify if the user is already connected.
-    stored_credentials = session.get('credentials')
+    stored_credentials = credentials.access_token
     stored_gplus_id = session.get('gplus_id')
     if stored_credentials is not None and gplus_id == stored_gplus_id:
         return jsonResponse('User is already connected.', 200)
@@ -142,7 +144,7 @@ def gconnect(session):
 
 
 def gDisconnect(session):
-    """Revokes the google credentials object.
+    """DEPRECATED Revokes the google credentials object.
 
     Args:
         session: The session object of the application we are logging out of.
@@ -152,10 +154,10 @@ def gDisconnect(session):
         False   : if the log out fails
     """
     try:
-        session.get('credentials').revoke(httplib2.Http())
+        # session.get('credentials').revoke(httplib2.Http())
         return True
-    except:
-        print "Not able to log out"
+    except Exception as e:
+        print e
         return False
 
 

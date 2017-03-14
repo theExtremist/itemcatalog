@@ -17,7 +17,7 @@ class Item(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(60), nullable=False)
-    description = Column(String(250))
+    description = Column(String(500))
     categoryId = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
     userId = Column(String(60), ForeignKey('user.email'))
@@ -66,9 +66,12 @@ class Item(Base):
     def save(item, params, image, userId):
         if Item.validParams(params, image):
             item.name = params['name']
-            item.categoryId = params['category']
-            item.description = params['description']
-            item.userId = userId
+            # item.categoryId = int(params['category'])
+            item.category = db.getOne(Category, "id", params['category'])
+            item.description = params['description'].strip()
+            # item.userId = userId
+            item.user = db.getOne(User, "email", userId)
+
             db.session.add(item)
             db.session.flush()
 

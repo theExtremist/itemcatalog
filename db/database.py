@@ -39,7 +39,8 @@ def getOne(table, field, val):
     """
 
     try:
-        return session.query(table).filter(getattr(table, field).like(val)).all()[0]
+        # return session.query(table).filter(getattr(table, field).like(val)).all()[0]
+        return session.query(table).filter(getattr(table, field) == val).all()[0]
     except:
         return None
 
@@ -57,7 +58,8 @@ def get(table, field, val):
         argument.
     """
 
-    return session.query(table).filter(getattr(table, field).like(val)).all()
+    # return session.query(table).filter(getattr(table, field).like(val)).all()
+    return session.query(table).filter(getattr(table, field) == val).all()
 
 
 def getSort(table, sortfield, limit):
@@ -73,14 +75,14 @@ def getSort(table, sortfield, limit):
         A list of records from the table sorted by the sortfield argument.
     """
 
-    return (session.query(table).filter(getattr(table, sortfield))
-            .order_by(getattr(table, sortfield).desc()).limit(limit))
+    # return (session.query(table).filter(getattr(table, sortfield))
+    #         .order_by(getattr(table, sortfield).desc()).limit(limit))
+    return (session.query(table).order_by(getattr(table, sortfield).desc()).limit(limit))
 
 
 # creates a database schema and binds a session to it.
-engine = create_engine('sqlite:///db/itemcatalog.db',
-                       connect_args={'check_same_thread':False},
-                       poolclass=StaticPool)
+# engine = create_engine('postgresql:///catalog')
+engine = create_engine('postgresql://catalog:rookie@localhost/catalog')
 Base.metadata.create_all(engine)
 DBsession = sessionmaker(bind=engine)
 session = DBsession()

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask import session, flash, make_response
 from werkzeug.contrib.cache import SimpleCache
-from flask.ext.seasurf import SeaSurf
+from flask_seasurf import SeaSurf
 
 import os
 import sys
@@ -11,10 +11,10 @@ import login
 
 app = Flask(__name__)
 csrf = SeaSurf(app)
-app.config['UPLOAD_FOLDER'] = 'static/img'
+app.config['UPLOAD_FOLDER'] = '/var/www/itemcatalog/static/img'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 cache = SimpleCache()
-
+cache.set('categories', getTable(Category), 3600)
 
 def authed(userId=None):
 
@@ -152,6 +152,7 @@ def saveItem(item):
               the saved item or any error messages.
     """
 
+    # return render ('base.html', title=request.form["category"])
     Item.save(item, request.form, request.files['picfile'], session['userId'])
 
     return render('item.html', title=item.category.name,
