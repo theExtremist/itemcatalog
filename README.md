@@ -20,7 +20,7 @@ The project involves configuring an apache server on a Linux remote server and d
 * Created a a new database Catolog
 * Created user catalog with permissions to login, select, insert, update and delete
 
-#Resources
+# Resources
 * GOOGLE oAuth video: https://youtu.be/YLHyeSuBspI
 * https://www.digitalocean.com/community/tutorials/
 * how-to-deploy-a-flask-application-on-an-ubuntu-vps
