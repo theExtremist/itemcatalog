@@ -14,7 +14,6 @@ csrf = SeaSurf(app)
 app.config['UPLOAD_FOLDER'] = '/var/www/itemcatalog/static/img'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 cache = SimpleCache()
-cache.set('categories', getTable(Category), 3600)
 
 def authed(userId=None):
 
@@ -88,6 +87,8 @@ def render(template, **kw):
 
     Returns     : Returns a HTTP response with the relevant template.
     """
+    if not cache.has('categories'):
+        cache.set('categories', getTable(Category), 3600)
 
     loggedIn = 'provider' in session
     return render_template(template, categories=cache.get('categories'),

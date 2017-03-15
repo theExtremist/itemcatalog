@@ -1,31 +1,31 @@
 # About
-This project was created for Item catalog project of Udacity's full stack developer nano degree program.
+This project was created for Linux Server Configuration project of Udacity's full stack developer nano degree program.
 
-The project include image handling and CSRF protection.
+The project involves configuring an apache server on a Linux remote server and deploying a previous project "Item Catalog" to the server.
 
-# Prerequisites
-### Vagrant and Virtual box
-* Install [Vagrant](https://www.vagrantup.com/)
-* Install [VirtualBox](https://www.virtualbox.org/)
-* Launch the Vagrant VM
+# IP ADDRESS
+* http://54.172.181.146/
 
-### Seasurf
-* Ensure the python package flask-seasurf is installed
-* This is included the pg_config.sh file that is provided with this project but if you are provisioning the machine using your own pg_config.sh file or some other environment, you will need to ensure that seasurf is installed.
-* The installation instructions for seasurf can [here](https://flask-seasurf.readthedocs.io/en/latest/).
+# URL
+* http://54.172.181.146/
 
+# Configurations
+* Updated all packages of Linux server as of 15 March 2017
+* Changes ssh port from 22 to 2200
+* Disabled password login
+* Configured UFW to accept connection from ports 2200,80, 123, 443 only
+* 443 was added as it is required by facebook for oAuth2
+* Synchronized the time zone to UTC
+* Installed Postgresql and Flask
+* Created a a new database Catolog
+* Created user catalog with permissions to login, select, insert, update and delete
 
-### Creddentials
-* You will require a Google+ or facebook login in order to add, edit or delete records from the database.
-* No credentials are require to only view the website.
-
-### Launching the server
-1. Clone this repository
-2. Launch Git Bash
-3. Navigate to relevant directory
-4. Launch the server using the command: python itemcatalog.py
-
-
-### Viewing the website
-* In your web browser, type the address localhost:8000
-    
+#Resources
+* GOOGLE oAuth video: https://youtu.be/YLHyeSuBspI
+* https://www.digitalocean.com/community/tutorials/
+* how-to-deploy-a-flask-application-on-an-ubuntu-vps
+* https://www.digitalocean.com/community/tutorials
+* how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2
+* http://docs.sqlalchemy.org/en/latest/core/engines.html#postgresql# About
+* http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
+* Stackoverflow
